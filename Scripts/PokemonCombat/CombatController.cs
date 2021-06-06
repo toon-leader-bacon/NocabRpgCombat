@@ -19,8 +19,10 @@ public class CombatController : MonoBehaviour {
         Nocabmon team1Data = new Nocabmon(100);
         Nocabmon team2Data = new Nocabmon(80);
 
+        Debug.Log("flag 1");
         team1_ = Object.Instantiate(prefabMono, this.transform);
         team2_ = Object.Instantiate(prefabMono, this.transform);
+        Debug.Log("flag 2");
 
         team1_.swapData(team1Data);
         team2_.swapData(team2Data);
