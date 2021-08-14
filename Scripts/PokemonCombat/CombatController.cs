@@ -1,47 +1,107 @@
+using System;
+using System.Globalization;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatController : MonoBehaviour {
-    /**
-     * An overseer that is responsible for managing a Pokemon style combat
-     */
+public class CombatController : MonoBehaviour
+{
+  /**
+   * An overseer that is responsible for managing a Pokemon style combat
+   */
 
-    public NocabmonMono prefabMono;
+
+  public NocabmonMono prefabMono;
+  TurnTracker turnTracker;
+
+  CombatData combatData;
 
 
-    public bool isTeam1Turn = true;
+  public HPDrawer hp1;
+  public HPDrawer hp2;
+  public StatusValue_MonoUI hp2_Slider;
 
-    public NocabmonMono team1_;
-    public NocabmonMono team2_;
+  void Start()
+  {
+    combatData = new CombatData();
 
-    void Start() {
-        Nocabmon team1Data = new Nocabmon(100);
-        Nocabmon team2Data = new Nocabmon(80);
+    TeamBuilder builder = new TeamBuilder();
+    // Team 1
+    combatData.addMobs(builder.buildCloneTeam(
+      "Team1", 1, prefabMono, new Nocabmon(100)));
 
-        Debug.Log("flag 1");
-        team1_ = Object.Instantiate(prefabMono, this.transform);
-        team2_ = Object.Instantiate(prefabMono, this.transform);
-        Debug.Log("flag 2");
+    // Team 2
+    combatData.addMobs(builder.buildCloneTeam(
+      "Team2", 1, prefabMono, new Nocabmon(80)));
 
-        team1_.swapData(team1Data);
-        team2_.swapData(team2Data);
+    // TODO Better ordering of mobs
+    turnTracker = new TurnTracker(combatData.getAllUnitIds_List());
+
+    // TODO: Better management of the UI systems
+    hp2_Slider.setNewMax(80);
+    hp2_Slider.setNewValue(80);
+
+  }
+
+
+
+  // Update is called once per frame
+  void Update()
+  {
+    if (Time.frameCount % GlobalConstants.FRAMES_PER_GAME_TICK == 0)
+    {
+      // Play the game
+
+      string targetMonId = turnTracker.simple();
+
+      // TODO: Try catch around the getMob action. Maybe it died mid turn?
+      NocabmonMono targetMon = this.combatData.getMob(targetMonId);
+
+      Action a = targetMon.runTurn(this.combatData);
+      this.executeAction(a);
+    }
+  }
+
+  void executeAction(Action action)
+  {
+    // Execute provided action on target
+    if (!this.combatData.containsMob(action.combatId))
+    {
+      string warning = $"Invalid action. Can't find target" +
+        $"UnitID ({action.combatId}). Skiping action";
+      Debug.LogWarning(warning);
+      return;
     }
 
-    // Update is called once per frame
-    void Update()  {
-        if (Time.frameCount % GlobalConstants.FRAMES_PER_GAME_TICK == 0) {
-            // Play the game
+    NocabmonMono targetMon = this.combatData.getMob(action.combatId.UnitID);
+    targetMon.applyActionOnMe(action);
 
-            if (isTeam1Turn) {
+    // TODO: Extract this redraw step into dedicated function
+    updateMobUI(targetMon);
 
-            } else {
-
-            }
-        }
+    if (targetMon.isDead())
+    {
+      // Run death script
+      // TODO: Run death script
+      Debug.Log("Someone died!");
     }
 
-    void executeAction(Action action) {
-        // Execute provided action on target
+  }
+
+
+  private void updateMobUI(NocabmonMono targetToDisplay)
+  {
+    if (targetToDisplay.CombatID.TeamID == "Team1")
+    {
+      hp1.displayNewValue(targetToDisplay.nocabMonData.HP_.Current, targetToDisplay.nocabMonData.HP_.Max);
     }
+    else
+    {
+      hp2.displayNewValue(
+        targetToDisplay.nocabMonData.HP_.Current, targetToDisplay.nocabMonData.HP_.Max);
+      hp2_Slider.setNewMax(targetToDisplay.nocabMonData.HP_.Max);
+      hp2_Slider.redraw_lerp(targetToDisplay.nocabMonData.HP_.Current, 5);
+    }
+  }
+
 }

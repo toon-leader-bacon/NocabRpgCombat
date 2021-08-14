@@ -8,7 +8,7 @@ public class Action {
      * what a Nocabmon will do on its turn.
      */
 
-    public bool isTargetingTeam1;
+    public CombatIdentifier combatId;
 
     public bool isSpecial = false;
     public int damage = 0;

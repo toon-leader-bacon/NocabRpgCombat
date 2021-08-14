@@ -1,3 +1,3 @@
 public static class GlobalConstants {
-    public static int FRAMES_PER_GAME_TICK = 10;
+    public static int FRAMES_PER_GAME_TICK = 400;
 }
