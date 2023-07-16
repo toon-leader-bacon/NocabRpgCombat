@@ -95,7 +95,7 @@ public class StatusValue
   // override object.GetHashCode
   public override int GetHashCode() {
     IList<int> elems = new List<int>() {this.current_, this.max_};
-    NocabHashUtility.generateHash<int>(elems);
+    NocabHashUtility.generateHash(elems);
     return base.GetHashCode();
   }
 
