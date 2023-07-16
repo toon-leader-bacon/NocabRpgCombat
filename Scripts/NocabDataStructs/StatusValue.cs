@@ -1,18 +1,15 @@
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Threading;
 using UnityEngine;
 
 public class StatusValue
 {
   /**
    * TODO:
-   * Make this class a MonoBehaviour and let it draw itself to the screen?
+   * Make this class a MonoBehavior and let it draw itself to the screen?
    */
 
 
-  // TODO: Conside adding a min value too
+  // TODO: Consider adding a min value too
   private int max_;
   public int Max { get { return this.max_; } }
 
@@ -22,7 +19,8 @@ public class StatusValue
   public bool isPositive { get { return this.max_ > 0; } }
 
   // Simple constructor
-  public StatusValue(int maxValue, int currentValue) {
+  public StatusValue(int maxValue, int currentValue)
+  {
     this.max_ = maxValue;
     this.current_ = currentValue;
   }
@@ -32,58 +30,72 @@ public class StatusValue
    * start at 0 or the max.
    */
   public StatusValue(int maxValue, bool startAtMax = true) :
-      this(maxValue, (startAtMax) ? (maxValue) : (0)) { }
+      this(maxValue, (startAtMax) ? (maxValue) : (0))
+  { }
 
 
   // Simple Constructor, initializes everything to 0
   public StatusValue() : this(0, 0) { }
 
 
-  public void addToCurrent(int valueToAdd, bool breakMax = false) {
+  public void addToCurrent(int valueToAdd, bool breakMax = false)
+  {
     this.current_ += valueToAdd;
-    if (!breakMax) {
+    if (!breakMax)
+    {
       // If we're NOT allowed to go over the max with this addition
       normalize();
     }
   }
 
-  public void subtractCurrent(int valueToSubtract) {
+  public void subtractCurrent(int valueToSubtract)
+  {
     this.current_ -= valueToSubtract;
     // TODO: Consider implimenting a min value?
   }
 
 
-  private void normalize() {
+  private void normalize()
+  {
     /**
      * @brief ensure the current value is less than or equal to the max.
      */
     this.current_ = Mathf.Min(this.current_, this.max_);
   }
 
-  public static bool operator ==(StatusValue left, int right) {
+  public static bool operator ==(StatusValue left, int right)
+  {
     return left.current_ == right;
   }
 
-  public static bool operator !=(StatusValue left, int right) {
+  public static bool operator !=(StatusValue left, int right)
+  {
     return left.current_ != right;
   }
 
-  public static bool operator <=(StatusValue left, int right) {
+  public static bool operator <=(StatusValue left, int right)
+  {
     return left.current_ <= right;
   }
-  public static bool operator >=(StatusValue left, int right) {
+  public static bool operator >=(StatusValue left, int right)
+  {
     return left.current_ >= right;
   }
 
-  public static bool operator <(StatusValue left, int right) {
+  public static bool operator <(StatusValue left, int right)
+  {
     return left < right;
   }
-  public static bool operator >(StatusValue left, int right) {
+
+  public static bool operator >(StatusValue left, int right)
+  {
     return left.current_ > right;
   }
 
-  public override bool Equals(object obj) {
-    if (obj == null || GetType() != obj.GetType()) {
+  public override bool Equals(object obj)
+  {
+    if (obj == null || GetType() != obj.GetType())
+    {
       return false;
     }
 
@@ -93,8 +105,9 @@ public class StatusValue
   }
 
   // override object.GetHashCode
-  public override int GetHashCode() {
-    IList<int> elems = new List<int>() {this.current_, this.max_};
+  public override int GetHashCode()
+  {
+    IList<int> elems = new List<int>() { this.current_, this.max_ };
     NocabHashUtility.generateHash(elems);
     return base.GetHashCode();
   }
