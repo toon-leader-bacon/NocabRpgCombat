@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Action {
+public class Action_Old {
     /**
      * An Action is a data structure that contains information describing
      * what a Nocabmon will do on its turn.

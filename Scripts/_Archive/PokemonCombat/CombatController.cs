@@ -28,11 +28,11 @@ public class CombatController : MonoBehaviour
     TeamBuilder builder = new TeamBuilder();
     // Team 1
     combatData.addMobs(builder.buildCloneTeam(
-      "Team1", 1, prefabMono, new Nocabmon(100)));
+      "Team1", 1, prefabMono, new Nocabmon_old(100)));
 
     // Team 2
     combatData.addMobs(builder.buildCloneTeam(
-      "Team2", 1, prefabMono, new Nocabmon(80)));
+      "Team2", 1, prefabMono, new Nocabmon_old(80)));
 
     // TODO Better ordering of mobs
     turnTracker = new TurnTracker(combatData.getAllUnitIds_List());
@@ -57,12 +57,12 @@ public class CombatController : MonoBehaviour
       // TODO: Try catch around the getMob action. Maybe it died mid turn?
       NocabmonMono targetMon = this.combatData.getMob(targetMonId);
 
-      Action a = targetMon.runTurn(this.combatData);
+      Action_Old a = targetMon.runTurn(this.combatData);
       this.executeAction(a);
     }
   }
 
-  void executeAction(Action action)
+  void executeAction(Action_Old action)
   {
     // Execute provided action on target
     if (!this.combatData.containsMob(action.combatId))

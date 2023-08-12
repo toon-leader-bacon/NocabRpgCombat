@@ -12,12 +12,12 @@ public class NocabmonMono : MonoBehaviour
    */
 
   // TODO: Make this not public, but externally read only
-  public Nocabmon nocabMonData;
+  public Nocabmon_old nocabMonData;
 
   private CombatIdentifier id;
   public CombatIdentifier CombatID { get { return this.id; } }
 
-  public void initNocab(Nocabmon newData, CombatIdentifier newID)
+  public void initNocab(Nocabmon_old newData, CombatIdentifier newID)
   {
     /**
      * A custom made initialization function. Typically this SHOULD
@@ -32,20 +32,20 @@ public class NocabmonMono : MonoBehaviour
     this.id = newID;
   }
 
-  public Nocabmon swapData(Nocabmon newData)
+  public Nocabmon_old swapData(Nocabmon_old newData)
   {
-    Nocabmon result = this.nocabMonData;
+    Nocabmon_old result = this.nocabMonData;
     this.nocabMonData = newData;
     return result;
   }
 
-  public Action runTurn(CombatData data)
+  public Action_Old runTurn(CombatData data)
   {
     // Lookup who the enemy is
     // Pick a move to use vs the enemy
     // return that action
 
-    Action result = new Action();
+    Action_Old result = new Action_Old();
     result.isSpecial = false; // False for now always
 
     HashSet<NocabmonMono> allEnemies = NocabmonBrains.findAllEnemyIds(this.CombatID, data);
@@ -55,7 +55,7 @@ public class NocabmonMono : MonoBehaviour
     return result;
   }
 
-  public void applyActionOnMe(Action action)
+  public void applyActionOnMe(Action_Old action)
   {
     // Take the provided action, and execute it vs this mon
 
@@ -96,7 +96,7 @@ public class NocabmonMono : MonoBehaviour
 
 }
 
-public class Nocabmon
+public class Nocabmon_old
 {
   /** A data model to represent a Nocabmon */
   public StatusValue HP_;
@@ -106,7 +106,7 @@ public class Nocabmon
   public int Attack_;
   public int Defense_;
 
-  public Nocabmon(int maxHP)
+  public Nocabmon_old(int maxHP)
   {
     this.HP_ = new StatusValue(maxHP, maxHP);
 

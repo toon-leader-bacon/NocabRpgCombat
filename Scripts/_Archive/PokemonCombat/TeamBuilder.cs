@@ -8,7 +8,7 @@ public class TeamBuilder
   private static NocabRNG rng = NocabRNG.defaultRNG;
 
   public List<NocabmonMono> buildCloneTeam(
-    string teamName, uint size, NocabmonMono toClone, Nocabmon data, string monNamePrefix = "")
+    string teamName, uint size, NocabmonMono toClone, Nocabmon_old data, string monNamePrefix = "")
   {
     /**
      * Produces a Team of NocabMon monobehaviors that are all on the same team. 
