@@ -16,6 +16,8 @@ public class StatusValue
   private int current_;
   public int Current { get { return this.current_; } }
 
+  public bool isNegative { get { return this.max_ < 0; } }
+  public bool isZero { get { return this.max_ == 0; } }
   public bool isPositive { get { return this.max_ > 0; } }
 
   // Simple constructor
@@ -51,7 +53,7 @@ public class StatusValue
   public void subtractCurrent(int valueToSubtract)
   {
     this.current_ -= valueToSubtract;
-    // TODO: Consider implimenting a min value?
+    // TODO: Consider implementing a min value?
   }
 
 
@@ -107,8 +109,7 @@ public class StatusValue
   // override object.GetHashCode
   public override int GetHashCode()
   {
-    IList<int> elems = new List<int>() { this.current_, this.max_ };
-    NocabHashUtility.generateHash(elems);
+    NocabHashUtility.generateHash(new List<int>() { this.current_, this.max_ });
     return base.GetHashCode();
   }
 
