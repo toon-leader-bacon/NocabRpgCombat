@@ -11,6 +11,10 @@ public abstract class INocabmon : MonoBehaviour
 
   public List<IAction> PossibleActions;
 
+  public abstract IAction selectAction();
+
   public abstract void applyAction(IAction action);
+
+  public abstract bool isDead();
 
 }

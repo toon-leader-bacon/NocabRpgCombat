@@ -18,7 +18,7 @@ public class Nocabmon : INocabmon
     Team = team;
   }
 
-  IAction selectAction()
+  public override IAction selectAction()
   {
     // TODO: Think of better strategies than picking a random attack
     NocabRNG rng = NocabRNG.defaultRNG;
@@ -33,7 +33,7 @@ public class Nocabmon : INocabmon
     action.activate(this);
   }
 
-  bool isDead()
+  public override bool isDead()
   {
     return this.stats.HP_Value.Current <= 0;
   }

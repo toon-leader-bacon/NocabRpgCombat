@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class UndeadNocabmon : INocabmon
 {
+  public UndeadNocabmon(int maxHitPoints, List<IAction> possibleActions, bool team)
+  {
+    this.stats.HP_Value = new StatusValue(maxHitPoints, maxHitPoints);
 
+    PossibleActions = possibleActions;
 
-  IAction selectAction()
+    Team = team;
+  }
+
+  public override IAction selectAction()
   {
     // TODO: Think of better strategies than picking a random attack
     NocabRNG rng = NocabRNG.defaultRNG;
@@ -31,7 +38,7 @@ public class UndeadNocabmon : INocabmon
     this.stats.HP_Value.subtractCurrent((int)healAction.amountToHeal());
   }
 
-  bool isDead()
+  public override bool isDead()
   {
     // Note, this creature is called "undead" but the INocabmon interface
     // stimulates that this function checks if the creature has no HP remaining.
