@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class AttackAction : MonoBehaviour, IAction
 {
-  public AttackAction(int damageToDeal_)
-  {
-    damageToDeal = damageToDeal_;
-  }
+    public AttackAction(int damageToDeal_)
+    {
+        damageToDeal = damageToDeal_;
+    }
 
+    public int damageToDeal;
 
-  public int damageToDeal;
+    public void activate(INocabmon target)
+    {
+        target.Stats.HP_Value.subtractCurrent(this.damageToDeal);
+    }
 
-  public void activate(INocabmon target)
-  {
-    target.stats.HP_Value.subtractCurrent(this.damageToDeal);
-  }
-
-  public DamageType GetDamageType() {
-    return DamageType.Bludgeon;
-  }
+    public DamageType GetDamageType()
+    {
+        return DamageType.Bludgeon;
+    }
 }

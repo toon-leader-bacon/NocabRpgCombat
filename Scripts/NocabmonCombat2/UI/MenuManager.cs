@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class MenuManager : MonoBehaviour
 {
@@ -22,11 +23,13 @@ public class MenuManager : MonoBehaviour
 
     protected Vector2Int currentSelected = new Vector2Int(0, 0); // 0,0 is top left of the button array
 
+    protected INocabmon playersMon;
+
     // Start is called before the first frame update
     void Start()
     {
         // Set up onClick behaviour
-        attackButton.onClick.AddListener(OnAttackClick);
+        attackButton.onClick.AddListener(OnActionClick);
         magicButton.onClick.AddListener(OnMagicClick);
         itemButton.onClick.AddListener(OnItemClick);
         runButton.onClick.AddListener(OnRunClick);
@@ -77,11 +80,25 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    // Button click functions
-    private void OnAttackClick()
+    Action<int> actionCallback = (int _) => { };
+
+    public void setActionCallback(Action<int> callback_)
     {
-        Debug.Log("Attack option selected!");
-        // Add your attack logic here
+        actionCallback = callback_;
+    }
+
+    // Button click functions
+    private void OnActionClick()
+    {
+        Debug.Log("Action option selected!");
+        Debug.Log($"Number of possible actions: {playersMon.PossibleActions.Count}");
+
+        int selectedIndex = 0;
+        Debug.Log($"selectedIndex: {selectedIndex}");
+        selectedIndex = Mathf.Clamp(selectedIndex, 0, playersMon.PossibleActions.Count - 1);
+        Debug.Log($"selectedIndex: {selectedIndex}");
+        Debug.Log($"PossibleActions.Count: {playersMon.PossibleActions.Count}");
+        actionCallback(selectedIndex);
     }
 
     private void OnMagicClick()
@@ -108,7 +125,7 @@ public class MenuManager : MonoBehaviour
         menuButtons[currentSelected.x][currentSelected.y].Select();
 
         // Calculate the newly selected position
-        // [Attack] [Item]
+        // [Action] [Item]
         // [Magic ] [Run ]
         int vertMenuLength = 2;
         int horizMenuLength = 2;
@@ -123,5 +140,10 @@ public class MenuManager : MonoBehaviour
     private void PressHighlightedButton()
     {
         menuButtons[currentSelected.x][currentSelected.y].onClick.Invoke();
+    }
+
+    public void setPlayerMon(INocabmon playersMon_)
+    {
+        playersMon = playersMon_;
     }
 }

@@ -14,7 +14,7 @@ public class MultiAction : MonoBehaviour, IAction
 
   public void activate(INocabmon target) {
     foreach(IAction action in actions) {
-      target.applyAction(action);
+      target.ApplyAction(action);
     }
   }
 

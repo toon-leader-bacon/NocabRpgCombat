@@ -9,8 +9,8 @@ public class NocabmonPlayerController : MonoBehaviour
 {
   void PromptPlayerForAction(INocabmon mon)
   {
-    foreach(IAction action in mon.PossibleActions) {
+    // foreach(IAction action in mon.PossibleActions) {
       
-    }
+    // }
   }
 }
